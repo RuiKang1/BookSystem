@@ -5,7 +5,10 @@
 <mapper namespace="cn.lanqiao.booksystem.mapper.BookMapper">
 
 
-    <select id="getBookType" resultType="java.lang.String">
-
+    <select id="getBookType" resultType="cn.lanqiao.booksystem.modle.pojo.BookTypeInfo">
+        select * from book_type_info;
+    </select>
+    <select id="selectBooks" resultType="cn.lanqiao.booksystem.modle.pojo.BooksInfo">
+        select * from books_info where status = 1;
     </select>
 </mapper>

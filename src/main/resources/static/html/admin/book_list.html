@@ -314,7 +314,7 @@
                 this.init(); // 执行搜索操作
             },
             async init() {
-                // axios.get("/book_info/page?page=" + this.page + "&pageSize=" + this.pageSize + "&name=" + this.input).then(res => {
+                // axios.get("/bookList/page?page=" + this.page + "&pageSize=" + this.pageSize + "&name=" + this.input).then(res => {
                 //     this.tableData = res.data.data.records;
                 //     this.counts = res.data.data.total;
                 // })
@@ -340,8 +340,10 @@
 
                 axios.get("/book_info/page", { params })
                     .then(res => {
-                        this.tableData = res.data.data.records;
+                        this.tableData = res.data;
+                        console.log(tableData)
                         this.counts = res.data.data.total;
+                        console.log(this.counts);
                     })
             },
             handleQuery() {
@@ -367,7 +369,7 @@
                     if (valid) {
                         // console.log(this.addBookForm)
                         // 向服务器发送 POST 请求以添加新书籍
-                        axios.post("/book_info", this.addBookForm)
+                        axios.post("/bookList", this.addBookForm)
                             .then(res => {
                                 if (res.data.code === 1) {
                                     // 添加成功，关闭对话框并重新加载数据
@@ -393,7 +395,7 @@
             async fetchBookCategories() {
                 try {
                     const response = await axios.get("/book/book_categories");
-                    this.bookCategories = response.data.data; // 将获取到的分类列表保存到变量中
+                    this.bookCategories = response.data; // 将获取到的分类列表保存到变量中
                 } catch (error) {
                     console.error('获取书籍分类列表失败：', error);
                 }
@@ -408,7 +410,7 @@
                 }).then(() => {
                     console.log(obj)
 
-                    axios.delete("/book_info?bids=" + obj.bid).then(res => {
+                    axios.delete("/bookList?bids=" + obj.bid).then(res => {
                         if (res.data.code === 1) {
                             this.$message.success('删除成功！')
                             this.handleQuery()
@@ -435,7 +437,7 @@
                     // 执行批量删除操作
                     const bids = this.selectedRows.map(row => row.bid);
                     console.log(bids.toString())
-                    axios.delete("/book_info?bids=" + bids.toString()).then(res => {
+                    axios.delete("/bookList?bids=" + bids.toString()).then(res => {
                         if (res.data.code === 1) {
                             this.$message.success('批量删除成功！');
                             this.handleQuery();
@@ -458,7 +460,7 @@
             submitAndContinue() {
                 this.$refs['addBookForm'].validate(valid => {
                     if (valid) {
-                        axios.post("/book_info", this.addBookForm)
+                        axios.post("/bookList", this.addBookForm)
                             .then(res => {
                                 if (res.data.code === 1) {
                                     this.$message.success('添加书籍成功！');
@@ -486,7 +488,7 @@
                 this.$refs['addBookForm'].validate(valid => {
                     if (valid) {
                         console.log(this.addBookForm)
-                        axios.put("/book_info", this.addBookForm)
+                        axios.put("/bookList", this.addBookForm)
                             .then(res => {
                                 if (res.data.code === 1) {
                                     // 添加成功，关闭对话框并重新加载数据

@@ -3207,7 +3207,7 @@
       Ctor = resolveAsyncComponent(asyncFactory, baseCtor);
       if (Ctor === undefined) {
         // return a placeholder node for async component, which is rendered
-        // as a comment node but preserves all the raw information for the node.
+        // as a comment node but preserves all the raw information forF the node.
         // the information will be used for async server-rendering and hydration.
         return createAsyncPlaceholder(
           asyncFactory,
