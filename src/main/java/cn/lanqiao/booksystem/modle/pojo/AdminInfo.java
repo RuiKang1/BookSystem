@@ -8,9 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AdminInfo {
-
   private long operatorId;
   private String operatorName;
   private String operatorPass;
-
 }
