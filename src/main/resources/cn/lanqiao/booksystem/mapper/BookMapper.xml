@@ -3,12 +3,15 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.lanqiao.booksystem.mapper.BookMapper">
-
-
     <select id="getBookType" resultType="cn.lanqiao.booksystem.modle.pojo.BookTypeInfo">
         select * from book_type_info;
     </select>
     <select id="selectBooks" resultType="cn.lanqiao.booksystem.modle.pojo.BooksInfo">
         select * from books_info where status = 1;
     </select>
+
+    <insert id="addBook">
+        insert into books_info values(null,#{name},#{card},#{author},#{num},#{press},#{type});
+    </insert>
+
 </mapper>

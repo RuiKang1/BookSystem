@@ -11,4 +11,5 @@ import java.util.List;
 public interface BookMapper {
     List<BookTypeInfo> getBookType();
     List<BooksInfo> selectBooks();
+    int addBook(BooksInfo book);
 }

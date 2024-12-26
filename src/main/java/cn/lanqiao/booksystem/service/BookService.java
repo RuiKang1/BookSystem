@@ -9,4 +9,6 @@ import java.util.List;
 public interface BookService {
     List<BookTypeInfo> getBookType();
     List<BooksInfo> selectBooks();
+    int addBook(BooksInfo book);
+
 }
