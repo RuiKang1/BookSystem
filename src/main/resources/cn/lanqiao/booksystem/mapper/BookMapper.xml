@@ -7,11 +7,11 @@
         select * from book_type_info;
     </select>
     <select id="selectBooks" resultType="cn.lanqiao.booksystem.modle.pojo.BooksInfo">
-        select * from books_info where status = 1;
+        select * from books_info;
     </select>
 
     <insert id="addBook">
-        insert into books_info values(null,#{name},#{card},#{author},#{num},#{press},#{type});
+        insert into books_info values(null,#{name},#{card},#{author},#{num},#{press},#{type},2);
     </insert>
 
 </mapper>
