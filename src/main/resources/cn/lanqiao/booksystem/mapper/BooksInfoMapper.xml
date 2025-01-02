@@ -13,6 +13,9 @@
             <result property="press" column="press" jdbcType="VARCHAR"/>
             <result property="type" column="type" jdbcType="VARCHAR"/>
             <result property="status" column="status" jdbcType="INTEGER"/>
+            <result property="beginTime" column="begin_time" jdbcType="INTEGER"/>
+            <result property="endTime" column="end_time" jdbcType="INTEGER"/>
+
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -20,4 +23,10 @@
         author,num,press,
         type,status
     </sql>
+    <select id="selectUserBooks" resultType="cn.lanqiao.booksystem.modle.pojo.BooksInfo">
+        select * from books_info where status=1;
+    </select>
+    <select id="selectUserBorrow" resultType="cn.lanqiao.booksystem.modle.pojo.BooksInfo">
+        SELECT b.name,b.card,h.begin_time,h.end_time FROM book_his_info h INNER JOIN books_info b ON h.bid = b.bid;
+    </select>
 </mapper>

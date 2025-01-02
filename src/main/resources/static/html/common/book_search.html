@@ -165,10 +165,12 @@
                 }
                 //按照分类搜索
 
-                axios.get("/book_info/page", {params})
+                axios.get("/book_info/page", { params })
                     .then(res => {
-                        this.tableData = res.data.data.records;
+                        this.tableData = res.data.data;
+                        console.log(tableData)
                         this.counts = res.data.data.total;
+                        console.log(this.counts);
                     })
             },
             handleSearch() {
