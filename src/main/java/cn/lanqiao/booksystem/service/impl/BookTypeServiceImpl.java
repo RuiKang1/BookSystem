@@ -33,6 +33,32 @@ public class BookTypeServiceImpl implements BookTypeService {
         }
     }
 
+    /**
+     * 新增分类
+     * @param bookTypeInfo
+     * @return
+     */
+    @Override
+    public int insertType(BookTypeInfo bookTypeInfo) {
+        try {
+            int result = bookTypeMapper.insertType(bookTypeInfo);
+            if (result > 0){
+                //新增成功
+                return 1;
+            }else {
+                //新增失败
+                return 0;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * 删除分类
+     * @param tid
+     * @return
+     */
     @Override
     public int delType(int tid) {
         try {

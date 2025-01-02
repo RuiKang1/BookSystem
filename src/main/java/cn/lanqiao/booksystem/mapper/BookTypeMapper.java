@@ -13,7 +13,13 @@ public interface BookTypeMapper {
     List<BookTypeInfo> selectTypeAll();
 
     /**
+     * 新增分类
+     */
+    int insertType(BookTypeInfo bookTypeInfo);
+
+    /**
      * 删除功能
      */
     int delType(int tid);
+
 }

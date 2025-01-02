@@ -14,7 +14,15 @@
         select * from book_type_info where del = 0;
     </select>
 
+    <!--  新增书籍类型  -->
+    <insert id="insertType">
+        insert into book_type_info values (null,#{name},0);
+    </insert>
+
+    <!--  删除功能  -->
     <update id="delType">
         update book_type_info set del = 1 where tid = #{tid};
     </update>
+
+
 </mapper>
