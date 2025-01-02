@@ -33,4 +33,14 @@ public class BookServiceImpl implements BookService {
             return null;
         }
     }
+
+    @Override
+    public int addBook(BooksInfo book) {
+        int result = bookMapper.addBook(book);
+        if(result > 0){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
 }
