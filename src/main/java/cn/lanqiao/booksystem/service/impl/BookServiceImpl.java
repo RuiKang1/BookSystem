@@ -25,8 +25,40 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BooksInfo> selectBooks() {
-        List<BooksInfo> booksInfos = bookMapper.selectBooks();
+    public List<BooksInfo> selectBooksByName(String name) {
+        List<BooksInfo> booksInfos = bookMapper.selectBooksByName(name);
+        if(booksInfos != null){
+            return booksInfos;
+        }else{
+            return null;
+        }
+    }
+
+    @Override
+    public List<BooksInfo> selectBooksByType(String type) {
+        List<BooksInfo> booksInfos = bookMapper.selectBooksByType(type);
+        if(booksInfos != null){
+            return booksInfos;
+        }else{
+            return null;
+        }
+    }
+
+    @Override
+    public List<BooksInfo> selectBooksByAuthor(String author) {
+        List<BooksInfo> booksInfos = bookMapper.selectBooksByAuthor(author);
+        if(booksInfos != null){
+            return booksInfos;
+        }else{
+            return null;
+        }
+    }
+
+
+
+    @Override
+    public List<BooksInfo> selectBooksByCard(String card) {
+        List<BooksInfo> booksInfos = bookMapper.selectBooksByCard(card);
         if(booksInfos != null){
             return booksInfos;
         }else{
