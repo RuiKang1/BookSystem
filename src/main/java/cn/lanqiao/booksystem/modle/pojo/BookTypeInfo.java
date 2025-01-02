@@ -1,20 +1,15 @@
 package cn.lanqiao.booksystem.modle.pojo;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-
 public class BookTypeInfo {
 
-  private long tid;
+  private int tid;
   private String name;
+  private int del;
 
-  public long getTid() {
+  public int getTid() {
     return tid;
   }
 
-  public void setTid(long tid) {
+  public void setTid(int tid) {
     this.tid = tid;
   }
 
@@ -26,9 +21,18 @@ public class BookTypeInfo {
     this.name = name;
   }
 
-  public BookTypeInfo(long tid, String name) {
+  public int getDel() {
+    return del;
+  }
+
+  public void setDel(int del) {
+    this.del = del;
+  }
+
+  public BookTypeInfo(int tid, String name, int del) {
     this.tid = tid;
     this.name = name;
+    this.del = del;
   }
 
   public BookTypeInfo() {

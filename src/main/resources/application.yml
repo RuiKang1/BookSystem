@@ -3,14 +3,17 @@ server:
   port: 8080
 
 
+
 #?????
-spr=ing:
+spring:
   datasource:
     username: root
     password: 20010720Lmx
     url: jdbc:mysql://47.109.206.82/keaprealClass?&useSSL=false&serverTimezone=UTC&characterEncoding=utf8&characterSetResults=utf8
     driver-class-name: com.mysql.cj.jdbc.Driver
-
+  main:
+    # 该属性设为true，就是允许循环引用存在，默认值为false
+    allow-circular-references: true
 
   #????
   transaction:

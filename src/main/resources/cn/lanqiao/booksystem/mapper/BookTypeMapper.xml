@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.lanqiao.booksystem.mapper.BookTypeMapper">
+
+    <resultMap id="Tid" type="cn.lanqiao.booksystem.modle.pojo.BookTypeInfo">
+        <id property="tid" column="tid"/>
+        <result property="name" column="name"/>
+        <result property="del" column="del"/>
+    </resultMap>
+    <!--  查询所有书籍类型  -->
+    <select id="selectTypeAll" resultType="cn.lanqiao.booksystem.modle.pojo.BookTypeInfo">
+        select * from book_type_info where del = 0;
+    </select>
+
+    <update id="delType">
+        update book_type_info set del = 1 where tid = #{tid};
+    </update>
+</mapper>

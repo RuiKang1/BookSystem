@@ -189,9 +189,11 @@
         },
         methods: {
             async init() {
-                axios.get("/book/page?page=" + this.page + "&pageSize=" + this.pageSize+"&name="+this.input).then(res => {
-                    this.tableData = res.data.data.records;
+                axios.get("/type/selectPage?page=" + this.page + "&pageSize=" + this.pageSize+"&name="+this.input).then(res => {
+                    this.tableData = res.data.data;
+                    console.log(tableData)
                     this.counts = res.data.data.total;
+                    console.log(this.counts);
                 })
             },
             handleSizeChange(val) {
@@ -202,6 +204,8 @@
                 this.page = val
                 this.init()
             },
+
+            //删除分类
             deleteHandle(obj) {
                 // console.log(obj);
 
@@ -212,7 +216,7 @@
                 }).then(() => {
                     // console.log(obj)
 
-                    axios.delete("/book/" + obj.tid).then(res => {
+                    axios.delete("/type/delType").then(res => {
                         if (res.data.code === 1) {
                             this.$message.success('删除成功！')
                             this.handleQuery()
@@ -232,6 +236,7 @@
             addBookType() {
                 this.classData.dialogVisible = true;
             },
+
             // 提交表单
             submitForm(action) {
                 this.$refs['classForm'].validate(valid => {
@@ -241,9 +246,9 @@
                         // 根据需求进行相应的操作
                         // console.log(this.classData.name);
 
-
+                        //直接提交并关闭对话框
                         if (action === 'one') {
-                            axios.post('/book', this.classData, {
+                            axios.post('/type/CommitClosed', this.classData, {
                                 headers: {
                                     'Content-Type': 'application/json'
                                 }
@@ -257,12 +262,13 @@
                                         this.$message.error(response.data.msg || '操作失败')
                                     }
                                 })
-
                             // TODO: 提交表单并关闭对话框
                             this.classData.dialogVisible = false;
+
+                            //提交，但不关闭对话框，继续添加
                         } else if (action === 'continue') {
                             // console.log(this.classData.name+"11111")
-                            axios.post('/book', this.classData, {
+                            axios.post('/type/Commit', this.classData, {
                                 headers: {
                                     'Content-Type': 'application/json'
                                 }
@@ -296,6 +302,7 @@
                     sort: ''
                 };
             },
+            //批量删除
             batchDelete() {
                 if (this.selectedRows.length === 0) {
                     this.$message.warning('请选择要删除的数据！');
@@ -310,7 +317,7 @@
                     // 执行批量删除操作
                     const tids = this.selectedRows.map(row => row.tid);
                     // console.log(tids.toString())
-                    axios.delete("/book/batchDelete?tids=" + tids.toString()).then(res => {
+                    axios.delete("/type/batchDelete?tids=" + tids.toString()).then(res => {
                         if (res.data.code === 1) {
                             this.$message.success('批量删除成功！');
                             this.handleQuery();
@@ -323,7 +330,8 @@
                 });
             },
 
-// 监听复选框选择事件，更新选中的数据
+
+            // 监听复选框选择事件，更新选中的数据
             handleSelectionChange(val) {
                 // this.selectedRows = this.selectedRows.join(",") ;
                 this.selectedRows = val || [];
@@ -341,7 +349,7 @@
             },
             submitEditForm(data) {
                 // console.log(data);
-                axios.put('/book?tid='+data.tid+"&name="+data.name).then(response => {
+                axios.put('/type/update?tid='+data.tid+"&name="+data.name).then(response => {
                         if (response.data.code === 1){
                             this.$message.success('修改成功成功！');
                             this.handleQuery();
