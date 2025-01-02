@@ -13,5 +13,6 @@ public interface BookService {
     List<BooksInfo> selectBooksByCard(String card);
 
     int addBook(BooksInfo book);
-
+    int editBookInfo(BooksInfo book);
+    int deleteBooks(List<Integer> bids);
 }

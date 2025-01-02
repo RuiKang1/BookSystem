@@ -10,17 +10,20 @@
         select * from books_info
             <where>
                 <if test="name != null and name != ''">
-                    and name like concat('%',#{name},'%');
+                    and name like concat('%',#{name},'%')
                 </if>
+            and status != 0;
             </where>
+
     </select>
 
     <select id="selectBooksByAuthor" resultType="cn.lanqiao.booksystem.modle.pojo.BooksInfo">
         select * from books_info
         <where>
             <if test="author != null and author != ''">
-                and author like concat('%',#{name},'%');
+                and author like concat('%',#{name},'%')
             </if>
+            and status != 0;
         </where>
     </select>
 
@@ -28,8 +31,9 @@
         select * from books_info
         <where>
             <if test="type != null and type != ''">
-                and type like concat('%',#{type},'%');
+                and type like concat('%',#{type},'%')
             </if>
+            and status != 0;
         </where>
     </select>
 
@@ -37,8 +41,9 @@
         select * from books_info
         <where>
             <if test="card != null and card != ''">
-                and card like concat('%',#{card},'%');
+                and card like concat('%',#{card},'%')
             </if>
+            and status != 0;
         </where>
     </select>
 
@@ -46,5 +51,18 @@
     <insert id="addBook">
         insert into books_info values(null,#{name},#{card},#{author},#{num},#{press},#{type},1);
     </insert>
+
+    <update id="editBookInfo">
+        update books_info set name = #{name},card = #{card},author = #{author},num = #{num},press = #{press},type = #{type} where bid = #{bid};
+    </update>
+
+    <delete id="deleteBooks">
+        update books_info set status = 0 where bid in
+        <foreach collection="bids" item="bid" open="(" separator="," close=")">
+            #{bid}
+        </foreach>
+    </delete>
+
+
 
 </mapper>

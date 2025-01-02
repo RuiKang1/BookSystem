@@ -14,7 +14,7 @@ public interface BookMapper {
     List<BooksInfo> selectBooksByType(String type);
     List<BooksInfo> selectBooksByCard(String card);
 
-
-
     int addBook(BooksInfo book);
+    int editBookInfo(BooksInfo book);
+    int deleteBooks(List<Integer> bids);
 }
