@@ -7,6 +7,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
@@ -17,6 +19,8 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class LoginInterceptor implements HandlerInterceptor {
 
+    private static final Logger log = LoggerFactory.getLogger(LoginInterceptor.class);
+
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
 
@@ -24,12 +28,7 @@ public class LoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 获取请求URI并记录日志
         String requestURI = request.getRequestURI();
-        log.info("Request URI: {}", requestURI);
-
-        // 检查是否为不需要拦截的路径（如登录、注册页面）
-        if (isPublicResource(requestURI)) {
-            return true;
-        }
+        log.info("requestURI: {}", requestURI);
 
         // 从请求头中获取token
         String token = request.getHeader("token");
@@ -43,50 +42,28 @@ public class LoginInterceptor implements HandlerInterceptor {
 
         // 尝试从会话中获取用户登录信息
         HttpSession session = request.getSession(false); // 不创建新会话
-        AdminInfo userLogin = (session != null) ? (AdminInfo) session.getAttribute("userLogin") : null;
+        AdminInfo userLogin = (AdminInfo) session.getAttribute("userLogin");
         log.info("User Login Info: {}", userLogin);
 
         // 如果用户信息不存在于会话中，或者与Redis中的Token不匹配，则拒绝访问
-        if (userLogin == null || !validateToken(userLogin.getOperatorName(), token)) {
+        if (userLogin == null) {
+            handleUnauthorized(response);
+            return false;
+        }
+
+        String usrToken = stringRedisTemplate.opsForValue().get("lanqiao:token:" + userLogin.getOperatorName());
+        log.info("Redis Token: {}", usrToken);
+
+        if (usrToken == null || !usrToken.equals(token)) {
             handleUnauthorized(response);
             return false;
         }
 
         // 更新Token的有效期
-        extendTokenExpiration(userLogin.getOperatorName());
+        stringRedisTemplate.expire("lanqiao:token:" + userLogin.getOperatorName(), 30L, TimeUnit.MINUTES);
 
         // 用户已登录且Token有效，继续处理请求
         return true;
-    }
-
-    /**
-     * 判断请求的资源是否是公共资源（无需拦截）
-     */
-    private boolean isPublicResource(String uri) {
-        // 定义不需要拦截的URL模式
-        String[] publicResources = {"/admin/login", "/admin/register"};
-        for (String resource : publicResources) {
-            if (uri.endsWith(resource)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * 验证Token是否存在于Redis中并与给定的Token相匹配
-     */
-    private boolean validateToken(String username, String token) {
-        String usrToken = stringRedisTemplate.opsForValue().get("lanqiao:token:" + username);
-        log.info("Redis Token: {}", usrToken);
-        return usrToken != null && usrToken.equals(token);
-    }
-
-    /**
-     * 延长Token在Redis中的有效期
-     */
-    private void extendTokenExpiration(String username) {
-        stringRedisTemplate.expire("lanqiao:token:" + username, 30L, TimeUnit.MINUTES);
     }
 
     /**
