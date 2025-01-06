@@ -11,13 +11,13 @@ public class BookHisInfo {
 
   private long hid;
   private long aid;
-  private String bid;
+  private long bid;
   private String card;
   private String bookName;
   private String adminName;
   private String username;
-  private java.sql.Date beginTime;
-  private java.sql.Date endTime;
+  private String beginTime;
+  private String endTime;
   private long status;
 
 

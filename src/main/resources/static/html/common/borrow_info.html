@@ -64,14 +64,14 @@
         >
         </el-table-column>
 
-        <!--        <el-table-column label="状态">-->
-        <!--            <template slot-scope="scope">-->
-        <!--                &lt;!&ndash; 根据 status 的值动态渲染不同的内容 &ndash;&gt;-->
-        <!--                <span v-if="scope.row.status === 2">未借出</span>-->
-        <!--                <span v-else>借阅中</span>-->
-        <!--            </template>-->
+                <el-table-column label="状态">
+                    <template slot-scope="scope">
+                        <!-- 根据 status 的值动态渲染不同的内容 -->
+                        <span v-if="scope.row.status === 2">未借出</span>
+                        <span v-else>借阅中</span>
+                    </template>
 
-        <!--        </el-table-column>-->
+                </el-table-column>
 
 
         <el-table-column
@@ -154,18 +154,19 @@
 
                 axios.get("/book_his/page", {params})
                     .then(res => {
-                        this.tableData = res.data.data.records.map(record => {
-                            // 格式化日期
-                            const formattedBeginTime = this.formatDate(record.beginTime);
-                            const formattedEndTime = this.formatDate(record.endTime);
-
-                            // 返回新对象，替换原始对象中的日期属性
-                            return {
-                                ...record,
-                                beginTime: formattedBeginTime,
-                                endTime: formattedEndTime
-                            };
-                        });
+                        // this.tableData = res.data.data.records.map(record => {
+                        //     // 格式化日期
+                        //     const formattedBeginTime = this.formatDate(record.beginTime);
+                        //     const formattedEndTime = this.formatDate(record.endTime);
+                        //
+                        //     // 返回新对象，替换原始对象中的日期属性
+                        //     return {
+                        //         ...record,
+                        //         beginTime: formattedBeginTime,
+                        //         endTime: formattedEndTime
+                        //     };
+                        // });
+                        this.tableData = res.data.data;
                         this.counts = res.data.data.total;
                     })
             },

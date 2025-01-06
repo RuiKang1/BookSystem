@@ -6,6 +6,7 @@ import cn.lanqiao.booksystem.modle.pojo.BooksInfo;
 import cn.lanqiao.booksystem.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -69,6 +70,27 @@ public class BookServiceImpl implements BookService {
     @Override
     public int addBook(BooksInfo book) {
         int result = bookMapper.addBook(book);
+        if(result > 0){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+
+    @Override
+    public int editBookInfo(BooksInfo book) {
+        int result = bookMapper.editBookInfo(book);
+        if(result > 0){
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+
+    @Transactional
+    @Override
+    public int deleteBooks(List<Integer> bids) {
+        int result = bookMapper.deleteBooks(bids);
         if(result > 0){
             return 1;
         }else{
