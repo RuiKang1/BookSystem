@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.lanqiao.booksystem.mapper.UserMsgMapper">
+    <select id="selectUserByUsername" resultType="cn.lanqiao.booksystem.modle.pojo.UserInfo">
+        select * from user_info
+        <where>
+            <if test="username != null and username != ''">
+                and username like concat('%',#{username},'%')
+            </if>
+            and status != 0 limit #{page},#{pageSize};
+        </where>
+    </select>
+
+    <select id="selectUserByName" resultType="cn.lanqiao.booksystem.modle.pojo.UserInfo">
+        select * from user_info
+        <where>
+            <if test="name != null and name != ''">
+                and name like concat('%',#{name},'%')
+            </if>
+            and status != 0 limit #{page},#{pageSize};
+        </where>
+    </select>
+
+    <update id="editUserInfo">
+        update user_info set name = #{name},password = #{password},email = #{email},phone = #{phone},status = #{status},lendNum = #{lendNum},maxNum = #{maxNum} where aid = #{aid};
+    </update>
+
+    <update id="deleteUsers">
+        update user_info set status = 0 where aid in
+        <foreach collection="aids" item="aid" open="(" separator="," close=")">
+            #{aid}
+        </foreach>
+    </update>
+
+</mapper>

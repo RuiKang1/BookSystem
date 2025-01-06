@@ -246,7 +246,7 @@
 
                 axios.get("/user/page", {params})
                     .then(res => {
-                        this.tableData = res.data.data.records;
+                        this.tableData = res.data.data;
                         this.counts = res.data.data.total;
 
                     })

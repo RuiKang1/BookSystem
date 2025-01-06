@@ -458,7 +458,7 @@
             submitAndContinue() {
                 this.$refs['addBookForm'].validate(valid => {
                     if (valid) {
-                        axios.post("/bookList", this.addBookForm)
+                        axios.post("/addBook", this.addBookForm)
                             .then(res => {
                                 if (res.data.code === 1) {
                                     this.$message.success('添加书籍成功！');
