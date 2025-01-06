@@ -34,7 +34,7 @@ public class AdminInfoController {
             AdminInfo login = adminInfoService.login(adminInfo);
             if (login != null){
                 Cookie cookie = new Cookie("id", URLEncoder.encode(String.valueOf(adminInfo.getOperatorId()),"UTF-8"));
-                //设置cookie存活时间
+                //设置cookie存活时间aa
                 cookie.setMaxAge(60 * 60 * 24 * 7);
                 // 设置cookie的路径，使其在整个应用中可用
                 cookie.setPath("/");
