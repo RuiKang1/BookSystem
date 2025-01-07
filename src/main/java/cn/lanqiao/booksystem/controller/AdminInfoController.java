@@ -101,5 +101,4 @@ public class AdminInfoController {
             return new ResponseUtils<>(0, "退出失败");
         }
     }
-
 }

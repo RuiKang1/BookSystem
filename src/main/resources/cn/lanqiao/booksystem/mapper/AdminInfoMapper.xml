@@ -10,7 +10,6 @@
         <result property="operatorPass" column="operatorPass"/>
     </resultMap>
 
-
     <!--  管理员登录功能  -->
     <select id="login" resultType="cn.lanqiao.booksystem.modle.pojo.AdminInfo">
         select * from admin_info where operatorName = #{operatorName} and operatorPass = #{operatorPass};
@@ -20,4 +19,5 @@
     <insert id="register">
         insert into admin_info values (null,#{operatorName},#{operatorPass});
     </insert>
+
 </mapper>

@@ -14,4 +14,5 @@ public interface AdminInfoMapper {
      * 管理员注册
      */
     int register(AdminInfo adminInfo);
+
 }

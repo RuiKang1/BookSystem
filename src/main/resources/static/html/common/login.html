@@ -244,6 +244,7 @@
                         if (this.rememberPassword) {
                             this.setCookie('username', user.username, 60 * 60 * 24 * 7); // 保存7天
                             this.setCookie('password', user.password, 60 * 60 * 24 * 7); // 保存7天
+
                         } else {
                             this.removeCookie('username');
                             this.removeCookie('password');

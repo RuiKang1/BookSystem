@@ -77,7 +77,9 @@ public class UserController {
             if (login != null){
                 if (code.equals(codes)){
                     //验证码正确，登录成功
+                    session.setAttribute("aid",login.getAid());//登录成功后将aid存入session
                     return new ResponseUtils(1,"登录成功",login);
+
                 }else {
                     //验证码错误
                     return new ResponseUtils<>(2,"验证码错误，登录失败");
