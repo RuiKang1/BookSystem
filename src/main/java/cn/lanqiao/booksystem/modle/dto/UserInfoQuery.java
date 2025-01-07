@@ -17,10 +17,9 @@ public class UserInfoQuery {
     private long status;
     private long lendNum;
     private long maxNum;
-    private String verifyCode;
 
-    private String code;
-    private boolean isRememberMe;
+    private String code;//前端输入的验证码
+    private boolean RememberPassword;
 
 
 }
