@@ -42,7 +42,7 @@
 
         <!--          书籍分类名称）-->
         <el-table-column
-                prop="bookName"
+                prop="name"
                 label="书籍名"
         >
         </el-table-column>
@@ -56,14 +56,19 @@
                 prop="beginTime"
                 label="借书日期"
         >
+            <template slot-scope="scope">
+                {{ scope.row.beginTime || '暂无日期' }}
+            </template>
         </el-table-column>
 
         <el-table-column
                 prop="endTime"
                 label="截至日期"
         >
+            <template slot-scope="scope">
+                {{ scope.row.endTime || '暂无日期' }}
+            </template>
         </el-table-column>
-
                 <el-table-column label="状态">
                     <template slot-scope="scope">
                         <!-- 根据 status 的值动态渲染不同的内容 -->
@@ -154,20 +159,16 @@
 
                 axios.get("/book_his/page", {params})
                     .then(res => {
-                        // this.tableData = res.data.data.records.map(record => {
-                        //     // 格式化日期
-                        //     const formattedBeginTime = this.formatDate(record.beginTime);
-                        //     const formattedEndTime = this.formatDate(record.endTime);
-                        //
-                        //     // 返回新对象，替换原始对象中的日期属性
-                        //     return {
-                        //         ...record,
-                        //         beginTime: formattedBeginTime,
-                        //         endTime: formattedEndTime
-                        //     };
-                        // });
-                        this.tableData = res.data.data;
-                        this.counts = res.data.data.total;
+                        if (res.data.code === 1) {
+                            this.tableData = res.data.data.map(item => ({
+                                ...item,
+                                beginTime: item.beginTime ? new Date(item.beginTime).toLocaleDateString() : '未设置',
+                                endTime: item.endTime ? new Date(item.endTime).toLocaleDateString() : '未设置'
+                            }));
+                            this.counts = res.data.data.length;
+                        } else {
+                            this.$message.error(res.data.msg || '查询失败');
+                        }
                     })
             },
             handleSearch() {
@@ -199,13 +200,13 @@
                 return `${year}-${month}-${day}`;
             },
             return_book(row){
-                const  hid = row.hid;
+                const  bid = row.bid;
                 this.$confirm('确认还书吗？', '警告', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    axios.get("/book_his?hid="+hid).then(res => {
+                    axios.get("/book_his?bid="+bid).then(res => {
                         if (res.data.code === 1) {
                             this.$message.success('还书成功！');
                             this.handleQuery();

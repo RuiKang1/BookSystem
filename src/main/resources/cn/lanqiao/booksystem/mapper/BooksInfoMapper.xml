@@ -23,10 +23,22 @@
         author,num,press,
         type,status
     </sql>
+    <update id="borrow">
+        update books_info set status=1 where bid=#{bid};
+    </update>
+    <update id="returnBook">
+        update books_info set status=2 where bid=#{bid};
+    </update>
     <select id="selectUserBooks" resultType="cn.lanqiao.booksystem.modle.pojo.BooksInfo">
         select * from books_info where status=1;
     </select>
     <select id="selectUserBorrow" resultType="cn.lanqiao.booksystem.modle.pojo.BooksInfo">
-        SELECT b.name,b.card,h.begin_time,h.end_time FROM book_his_info h INNER JOIN books_info b ON h.bid = b.bid;
+        SELECT
+            b.*,
+            h.begin_time,
+            h.end_time
+        FROM books_info b
+                 LEFT JOIN book_his_info h ON h.bid = b.bid
+        WHERE b.status = 1;
     </select>
 </mapper>

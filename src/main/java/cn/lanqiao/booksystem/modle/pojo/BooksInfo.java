@@ -1,5 +1,6 @@
 package cn.lanqiao.booksystem.modle.pojo;
 
+
 import java.sql.Date;
 
 public class BooksInfo {
@@ -12,46 +13,24 @@ public class BooksInfo {
   private String press;
   private String type;
   private long status;
-  private String beginTime;
-  private String endTime;
+  private Date beginTime;
+  private Date endTime;
+  private long hid;
 
-  @Override
-  public String toString() {
-    return "BooksInfo{" +
-            "bid=" + bid +
-            ", name='" + name + '\'' +
-            ", card='" + card + '\'' +
-            ", author='" + author + '\'' +
-            ", num=" + num +
-            ", press='" + press + '\'' +
-            ", type='" + type + '\'' +
-            ", status=" + status +
-            ", beginTime='" + beginTime + '\'' +
-            ", endTime='" + endTime + '\'' +
-            '}';
+  public long getHid() {
+    return hid;
   }
 
-  public String getBeginTime() {
-    return beginTime;
-  }
-
-  public void setBeginTime(String beginTime) {
-    this.beginTime = beginTime;
-  }
-
-  public String getEndTime() {
-    return endTime;
-  }
-
-  public void setEndTime(String endTime) {
-    this.endTime = endTime;
+  public void setHid(long hid) {
+    this.hid = hid;
   }
 
   public BooksInfo() {
   }
 
-  public BooksInfo(long bid, String name, String card, String author, long num, String press, String type, long status, String beginTime, String endTime) {
+  public BooksInfo(long bid, long hid, String name, String card, String author, long num, String press, String type, long status, Date beginTime, Date endTime) {
     this.bid = bid;
+    this.hid = hid;
     this.name = name;
     this.card = card;
     this.author = author;
@@ -60,6 +39,22 @@ public class BooksInfo {
     this.type = type;
     this.status = status;
     this.beginTime = beginTime;
+    this.endTime = endTime;
+  }
+
+  public Date getBeginTime() {
+    return beginTime;
+  }
+
+  public void setBeginTime(Date beginTime) {
+    this.beginTime = beginTime;
+  }
+
+  public Date getEndTime() {
+    return endTime;
+  }
+
+  public void setEndTime(Date endTime) {
     this.endTime = endTime;
   }
 

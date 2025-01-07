@@ -3,6 +3,7 @@ package cn.lanqiao.booksystem.modle.pojo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.sql.Date;
 
 @Data
 @NoArgsConstructor
@@ -16,11 +17,24 @@ public class BookHisInfo {
   private String bookName;
   private String adminName;
   private String username;
-  private String beginTime;
-  private String endTime;
+  private Date beginTime;
+  private Date endTime;
   private long status;
 
-
-
+  @Override
+  public String toString() {
+    return "BookHisInfo{" +
+            "hid=" + hid +
+            ", aid=" + aid +
+            ", bid=" + bid +
+            ", card='" + card + '\'' +
+            ", bookName='" + bookName + '\'' +
+            ", adminName='" + adminName + '\'' +
+            ", username='" + username + '\'' +
+            ", beginTime='" + beginTime + '\'' +
+            ", endTime='" + endTime + '\'' +
+            ", status=" + status +
+            '}';
+  }
 
 }
