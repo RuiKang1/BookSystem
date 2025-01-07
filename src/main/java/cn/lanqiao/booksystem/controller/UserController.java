@@ -76,24 +76,6 @@ public class UserController {
             UserInfo login = userService.login(userInfoQuery);
             if (login != null){
                 if (code.equals(codes)){
-                    if(userInfoQuery.isRememberPassword()){
-                        //勾选了记住我
-                        Cookie cookie1 = new Cookie("username", URLEncoder.encode(userInfoQuery.getUsername(), "UTF-8"));
-                        Cookie cookie2 = new Cookie("password", URLEncoder.encode(userInfoQuery.getPassword(), "UTF-8"));
-                        // 设置cookie的存活时间
-                        cookie1.setMaxAge(60 * 60 * 24 * 7);
-                        cookie2.setMaxAge(60 * 60 * 24 * 7);
-                        // 设置cookie的路径，使其在整个应用中可用
-                        cookie1.setPath("/");
-                        cookie2.setPath("/");
-                        // 如果使用HTTPS，可以设置secure属性
-                        // cookie1.setSecure(true);
-                        // cookie2.setSecure(true);
-                        response.addCookie(cookie1);
-                        response.addCookie(cookie2);
-                    }else {
-                        System.out.println(userInfoQuery.isRememberPassword());
-                    }
                     //验证码正确，登录成功
                     return new ResponseUtils(1,"登录成功",login);
                 }else {
