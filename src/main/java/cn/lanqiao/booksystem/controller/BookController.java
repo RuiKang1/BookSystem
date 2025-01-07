@@ -41,15 +41,15 @@ public class BookController {
      */
     @RequestMapping("/book_info/page")
     @ResponseBody
-    public ResponseUtils selectBooksByName(String name,String author,String type,String card){
+    public ResponseUtils selectBooksByName(String name,String author,String type,String card,Integer page,Integer pageSize){
         List<BooksInfo> booksInfos = null;
-        booksInfos = bookService.selectBooksByName(name);
+        booksInfos = bookService.selectBooksByName(name,page,pageSize);
         if(author != null){
-            booksInfos = bookService.selectBooksByAuthor(author);
+            booksInfos = bookService.selectBooksByAuthor(author,page,pageSize);
         }else if(type != null){
-            booksInfos = bookService.selectBooksByType(type);
+            booksInfos = bookService.selectBooksByType(type,page,pageSize);
         }else if(card != null){
-            booksInfos = bookService.selectBooksByCard(card);
+            booksInfos = bookService.selectBooksByCard(card,page,pageSize);
         }
 //        System.out.println("name:" + name);
 //        System.out.println("author:" + author);
@@ -80,6 +80,12 @@ public class BookController {
         }
     }
 
+
+    /**
+     * 修改书籍
+     * @param book
+     * @return
+     */
     @PutMapping("/bookList")
     @ResponseBody
     public ResponseUtils editBookInfo(@RequestBody BooksInfo book){
@@ -91,6 +97,11 @@ public class BookController {
         }
     }
 
+    /**
+     * 删除书籍
+     * @param bids
+     * @return
+     */
     @DeleteMapping("/bookList")
     @ResponseBody
     public ResponseUtils deleteBook(String bids){

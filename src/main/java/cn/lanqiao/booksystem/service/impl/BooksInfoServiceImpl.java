@@ -2,6 +2,7 @@ package cn.lanqiao.booksystem.service.impl;
 
 
 import cn.lanqiao.booksystem.mapper.BookMapper;
+import cn.lanqiao.booksystem.modle.dto.BookBorrowDTO;
 import cn.lanqiao.booksystem.modle.pojo.BooksInfo;
 import cn.lanqiao.booksystem.service.BooksInfoService;
 import cn.lanqiao.booksystem.mapper.BooksInfoMapper;
@@ -30,12 +31,27 @@ public class BooksInfoServiceImpl implements BooksInfoService{
     }
 
     @Override
-    public List<BooksInfo> selectUserBorrow() {
-        List<BooksInfo> booksInfos = booksInfoMapper.selectUserBorrow();
-        if(booksInfos != null){
-            return booksInfos;
-        }else{
-            return null;
+    public List<BookBorrowDTO> selectUserBorrow() {
+        return booksInfoMapper.selectUserBorrow();
+    }
+
+    @Override
+    public int borrow(Long bid) {
+        int result = booksInfoMapper.borrow(bid);
+        if (result>0){
+            return 1;
+        }else {
+            return 0;
+        }
+    }
+
+    @Override
+    public int returnBook(Long hid) {
+        int result = booksInfoMapper.returnBook(hid);
+        if (result>0){
+            return 1;
+        }else {
+            return 0;
         }
     }
 }
