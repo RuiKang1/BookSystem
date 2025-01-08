@@ -5,6 +5,7 @@ import cn.lanqiao.booksystem.modle.pojo.BookTypeInfo;
 import cn.lanqiao.booksystem.service.BookTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -72,5 +73,39 @@ public class BookTypeServiceImpl implements BookTypeService {
             throw new RuntimeException(e);
         }
     }
+
+    @Transactional
+    @Override
+    public int batchDelete(List<Integer> tids) {
+        try {
+            int result = bookTypeMapper.batchDelete(tids);
+            if (result >0){
+                //批量删除成功
+                return 1;
+            }else {
+                //批量删除失败
+                return 0;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public int updateType(BookTypeInfo bookTypeInfo) {
+        try {
+            int result = bookTypeMapper.updateType(bookTypeInfo);
+            if (result >0){
+                //修改成功
+                return 1;
+            }else {
+                //修改失败
+                return 0;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
 }

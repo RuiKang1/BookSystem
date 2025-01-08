@@ -12,4 +12,6 @@ public interface AdminInfoService {
      * 管理员注册
      */
     int register(AdminInfo adminInfo);
+
+    int up(AdminInfo adminInfo);
 }

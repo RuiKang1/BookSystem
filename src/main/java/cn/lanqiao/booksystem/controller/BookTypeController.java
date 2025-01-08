@@ -109,4 +109,48 @@ public class BookTypeController {
         }
     }
 
+    /**
+     * 批量删除
+     * @param tids
+     * @return
+     */
+    @RequestMapping("/batchDelete")
+    @ResponseBody
+    public ResponseUtils batchDelete(String tids){
+        List<Integer> tidsList = new ArrayList<>();
+        String[] split = tids.split(",");
+        for (int i=0;i<split.length;i++) {
+            Integer i1 = Integer.valueOf(split[i]);
+            tidsList.add(i1);
+        }
+        try {
+            int result = bookTypeService.batchDelete(tidsList);
+            if (result ==1){
+                return new ResponseUtils<>(1,"批量删除成功");
+            }else {
+                return new ResponseUtils<>(2,"批量删除失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @RequestMapping("/updateType")
+    @ResponseBody
+    public ResponseUtils updateType(@RequestBody BookTypeInfo bookTypeInfo){
+        try {
+            int result = bookTypeService.updateType(bookTypeInfo);
+            if (result == 1){
+                return new ResponseUtils<>(1,"修改成功");
+            }else {
+                return new ResponseUtils<>(2,"修改失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
 }

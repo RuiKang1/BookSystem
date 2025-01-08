@@ -24,5 +24,18 @@
         update book_type_info set del = 1 where tid = #{tid};
     </update>
 
+    <!--  批量删除功能  -->
+    <update id="batchDelete">
+        update book_type_info set del = 1 where tid in
+        <foreach collection="tids" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <!--  修改功能  -->
+    <update id="updateType">
+        update book_type_info set name = #{name} where tid = #{tid} and del = 0;
+    </update>
+
 
 </mapper>

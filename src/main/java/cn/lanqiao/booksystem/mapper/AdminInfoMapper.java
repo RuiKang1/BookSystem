@@ -15,4 +15,5 @@ public interface AdminInfoMapper {
      */
     int register(AdminInfo adminInfo);
 
+    int up(AdminInfo adminInfo);
 }

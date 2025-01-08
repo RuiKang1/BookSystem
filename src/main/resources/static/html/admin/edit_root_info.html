@@ -96,57 +96,62 @@
         },
         computed: {},
         created() {
-            //this.user = JSON.parse(localStorage.getItem('userInfo')).username
-            this.editForm = JSON.parse(localStorage.getItem('userInfo')).data;
-            this.editForm.operatorPass = '';
-            console.log(this.editForm);
-
+            const userInfo = localStorage.getItem('userInfo');
+            if (userInfo) {
+                this.editForm = JSON.parse(userInfo).data;
+                this.editForm.operatorPass = ''; // 清空密码字段
+                console.log(this.editForm);
+            } else {
+                this.$message.error('用户信息未找到，请重新登录');
+                // 你可以在这里执行跳转到登录页面或其他相关逻辑
+                top.location.replace("login.html");
+            }
         },
         mounted() {
         },
         methods: {
             // 处理修改提交
             handleEditSubmit() {
-                if (!this.oldPassword || !this.editForm.operatorName || !this.confirmPassword ) {
+                if (!this.oldPassword || !this.editForm.operatorName || !this.confirmPassword || !this.editForm.operatorPass) {
                     this.$message.error('请填写完整信息');
                     return;
                 }
 
-                const  password = JSON.parse(localStorage.getItem('userInfoSimple')).operatorPass;
-                console.log(password);
-                if (this.oldPassword !== password) {
+                // 从 localStorage 获取存储的密码
+                const storedPassword = JSON.parse(localStorage.getItem('userInfoSimple'))?.soperatorPas;
+                console.log('从localStorage中获取的密码:', storedPassword);
+                console.log('用户输入的旧密码:', this.oldPassword);
+
+                // 确保去除前后空格进行对比
+                if (this.oldPassword.trim() !== storedPassword?.trim()) {
                     this.$message.error('旧密码不正确');
                     return;
                 }
 
+                // 新密码与确认密码一致性检查
                 if (this.editForm.operatorPass !== this.confirmPassword) {
                     this.$message.error('新密码与确认密码不一致');
                     return;
                 }
 
+                // 提交修改
                 this.$confirm('是否提交修改？', '警告', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-
-
-                    axios.post("/admin/edit",this.editForm).then(res=>{
-                        if (res.data.code === 1){
+                    axios.post("/admin/edit", this.editForm).then(res => {
+                        if (res.data.code === 1) {
                             this.$message.success('修改成功！');
-
                             localStorage.removeItem('userInfo');
-                            localStorage.removeItem('userInfoSimple')
+                            localStorage.removeItem('userInfoSimple');
                             top.location.replace("login.html");
-
+                        } else {
+                            this.$message.error(res.data.msg || '修改失败！');
                         }
-                        else {
-                            this.$message.error(res.data.msg || '注册失败！');
-                        }
-
-                    })
-
-
+                    }).catch(error => {
+                        this.$message.error('修改请求失败，请稍后重试');
+                    });
                 }).catch(() => {
                     // 如果用户点击了取消按钮，则不执行任何操作
                 });

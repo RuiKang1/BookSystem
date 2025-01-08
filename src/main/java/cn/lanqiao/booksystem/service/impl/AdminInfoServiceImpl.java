@@ -49,4 +49,18 @@ public class AdminInfoServiceImpl implements AdminInfoService {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public int up(AdminInfo adminInfo) {
+        try {
+            int up = adminInfoMapper.up(adminInfo);
+            if (up>0){
+                return 1;
+            }else {
+                return 0;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
