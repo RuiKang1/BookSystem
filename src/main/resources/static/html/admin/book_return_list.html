@@ -9,7 +9,7 @@
     <script src="../../js/vue.js"></script>
     <link rel="stylesheet" href="../../element-ui/lib/theme-chalk/index.css">
 
-
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <script src="../../element-ui/lib/index.js"></script>
     <script src="../../js/axios-0.18.0.js"></script>
 
@@ -20,126 +20,86 @@
 
 <body>
 
-<div id="app">
+    <div id="app">
 
 
-    <el-input v-model="searchText" placeholder="请输入搜索内容" style="width: 200px"
-              @keyup.enter="handleSearch"></el-input>
-    <el-select v-model="searchType" placeholder="选择搜索类型" style="width: 150px">
-        <el-option label="按书名搜索" value="name"></el-option>
-                <el-option label="按借阅者账号搜索" value="adminName"></el-option>
-                <el-option label="按借阅者姓名搜索" value="username"></el-option>
-        <el-option label="按书籍号搜索" value="card"></el-option>
-    </el-select>
-    <el-button type="primary" @click="handleSearch">搜索</el-button>
+        <el-input v-model="BookHisInfo.queryCriteria" placeholder="请输入搜索内容" style="width: 200px"
+            @keyup.enter="handleSearch"></el-input>
+        <el-select v-model="BookHisInfo.number" placeholder="请选择">
+            <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+        </el-select>
+        <el-button type="primary" @click="handleSearch">搜索</el-button>
 
-    <el-table style="padding: 20px"
-              :data="tableData"
-              stripe
-
-    >
+        <el-table style="padding: 20px" :data="tableData" stripe>
 
 
 
-        <el-table-column
-                prop="bookName"
-                label="书籍名"
-        >
-        </el-table-column>
-        <el-table-column
-                prop="card"
-                label="书籍号"
-        >
-        </el-table-column>
+            <el-table-column prop="name" label="书籍名">
+            </el-table-column>
+            <el-table-column prop="card" label="书籍号">
+            </el-table-column>
 
 
-        <el-table-column
-                prop="adminName"
-                label="借阅者账号"
-        >
+            <el-table-column prop="adminName" label="借阅者账号">
 
-        </el-table-column>
+            </el-table-column>
 
-            <el-table-column
-                prop="username"
-                label="借阅者姓名"
-        >
-        </el-table-column>
+            <el-table-column prop="username" label="借阅者姓名">
+            </el-table-column>
 
 
-        <el-table-column
-                prop="beginTime"
-                label="借书日期"
-        >
-        </el-table-column>
+            <el-table-column prop="beginTime" label="借书日期">
+            </el-table-column>
 
-        <el-table-column
-                prop="endTime"
-                label="截至日期"
-        >
-        </el-table-column>
+            <el-table-column prop="endTime" label="截至日期">
+            </el-table-column>
 
-        <el-table-column label="是否归还">
-            <template slot-scope="scope">
-                <!-- 根据 status 的值动态渲染不同的内容 -->
-                <span v-if="scope.row.status === 2">已归还</span>
-                <span v-else>借阅中</span>
-            </template>
+            <el-table-column label="是否归还">
+                <template slot-scope="scope">
+                    <!-- 根据 status 的值动态渲染不同的内容 -->
+                    <span v-if="scope.row.status === 2">已归还</span>
+                    <span v-else>借阅中</span>
+                </template>
 
-        </el-table-column>
+            </el-table-column>
 
-        <el-table-column
-                label="操作"
-                width="160"
-                align="center"
-        >
-            <template slot-scope="scope">
-                <el-button
-                        type="text"
-                        size="small"
-                        class="blueBug"
-                        @click="deleteHis(scope.row)"
-                >
-                    删除记录
-                </el-button>
-            </template>
-        </el-table-column>
+            <el-table-column label="操作" width="160" align="center">
+                <template slot-scope="scope">
+                    <el-button type="text" size="small" class="blueBug" @click="deleteHis(scope.row)">
+                        删除记录
+                    </el-button>
+                </template>
+            </el-table-column>
 
 
-        <!--        <el-table-column-->
-        <!--                label="操作"-->
-        <!--                width="160"-->
-        <!--                align="center"-->
-        <!--        >-->
-        <!--            <template slot-scope="scope">-->
-        <!--                <el-button-->
-        <!--                        type="text"-->
-        <!--                        size="small"-->
-        <!--                        class="blueBug"-->
-        <!--                        @click="return_book(scope.row)"-->
-        <!--                >-->
-        <!--                    还书-->
-        <!--                </el-button>-->
-        <!--            </template>-->
-        <!--        </el-table-column>-->
-    </el-table>
-    <!--    class="pageList"-->
-    <el-pagination
-
-            :page-sizes="[10, 20, 30, 40]"
-            :page-size="pageSize"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="counts"
-            @size-change="handleSizeChange"
-            :current-page.sync="page"
-            @current-change="handleCurrentChange"
-    ></el-pagination>
+            <!--        <el-table-column-->
+            <!--                label="操作"-->
+            <!--                width="160"-->
+            <!--                align="center"-->
+            <!--        >-->
+            <!--            <template slot-scope="scope">-->
+            <!--                <el-button-->
+            <!--                        type="text"-->
+            <!--                        size="small"-->
+            <!--                        class="blueBug"-->
+            <!--                        @click="return_book(scope.row)"-->
+            <!--                >-->
+            <!--                    还书-->
+            <!--                </el-button>-->
+            <!--            </template>-->
+            <!--        </el-table-column>-->
+        </el-table>
+        <!--    class="pageList"-->
+        <el-pagination :page-sizes="[10, 20, 30, 40]" :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper" :total="counts" @size-change="handleSizeChange"
+            :current-page.sync="page" @current-change="handleCurrentChange"></el-pagination>
 
 
-</div>
+    </div>
 
 </body>
-
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <script>
 
     let myVue = new Vue({
@@ -151,11 +111,29 @@
                 page: 1,
                 pageSize: 10,
                 tableData: [],
+                BookHisInfo: {
+                    currentPage: 1,
+                    currentSize: 10,
+                    queryCriteria: "",
+                    number: "",
+                },
                 id: '',
                 status: '',
                 searchText: '',
                 searchType: 'name',
-
+                options: [{
+                    value: '1',
+                    label: '按书名搜索'
+                }, {
+                    value: '2',
+                    label: '按借阅者账号搜索'
+                }, {
+                    value: '3',
+                    label: '按借阅者姓名搜索'
+                }, {
+                    value: '4',
+                    label: '按书籍号'
+                }],
             }
         },
         computed: {},
@@ -167,54 +145,26 @@
         },
         methods: {
             async init() {
-
-
-                let params = {
-                    page: this.page,
-                    pageSize: this.pageSize
-                };
-
-                // 根据搜索类型设置请求参数
-                if (this.searchText) {
-                    if (this.searchType === 'name') {
-                        params.name = this.searchText;
-                    }   else if (this.searchType === 'card') {
-                        params.card = this.searchText;
-                    }else if (this.searchType === 'adminName') {
-                        params.adminName = this.searchText;
-                    }else if (this.searchType === 'username') {
-                        params.username = this.searchText;
+                axios.post("http://localhost:8080/BookReturn/return", this.BookHisInfo).then(response => {
+                    if (response.data.code == 200) {
+                        this.tableData = response.data.data.currentPage;
+                        this.counts = response.data.data.total;
+                    } else {
+                        this.$message.error(`${response.data.msg}`);
                     }
-                }
 
-
-                axios.get("/book_his/his_admin", {params})
-                    .then(res => {
-                        this.tableData = res.data.data.records.map(record => {
-                            // 格式化日期
-                            const formattedBeginTime = this.formatDate(record.beginTime);
-                            const formattedEndTime = this.formatDate(record.endTime);
-
-                            // 返回新对象，替换原始对象中的日期属性
-                            return {
-                                ...record,
-                                beginTime: formattedBeginTime,
-                                endTime: formattedEndTime
-                            };
-                        });
-                        this.counts = res.data.data.total;
-                    })
+                })
             },
             handleSearch() {
                 this.page = 1; // 重置页码为1
                 this.init(); // 执行搜索操作
             },
             handleSizeChange(val) {
-                this.pageSize = val
+                this.BookHisInfo.currentSize = val
                 this.init()
             },
             handleCurrentChange(val) {
-                this.page = val
+                this.BookHisInfo.currentPage = val
                 this.init()
             },
             handleQuery() {
@@ -233,21 +183,20 @@
                 // 拼接日期字符串
                 return `${year}-${month}-${day}`;
             },
-            deleteHis(row){
-                // console.log(row)
+            deleteHis(row) {
+                console.log(row)
 
                 this.$confirm('确认删除此条记录吗？', '警告', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    axios.delete("/book_his/"+row.hid).then(res => {
-                        if (res.data.code === 1) {
-                            this.$message.success('删除成功！');
-                            this.handleQuery();
-                        } else {
-                            this.$message.error(res.data.msg || '操作失败');
-                        }
+                    axios.get(`http://localhost:8080/BookReturn/delete?id=${row.hid}`).then(response => {
+                        this.$message({
+                            message: '删除成功',
+                            type: 'success'
+                        });
+                        this.init();
                     })
                 }).catch(() => {
                     // 如果用户点击了取消按钮，则不执行任何操作
