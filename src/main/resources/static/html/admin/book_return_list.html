@@ -45,8 +45,8 @@
 
             </el-table-column>
 
-            <el-table-column prop="username" label="借阅者姓名">
-            </el-table-column>
+<!--            <el-table-column prop="username" label="借阅者姓名">-->
+<!--            </el-table-column>-->
 
 
             <el-table-column prop="beginTime" label="借书日期">
@@ -58,7 +58,7 @@
             <el-table-column label="是否归还">
                 <template slot-scope="scope">
                     <!-- 根据 status 的值动态渲染不同的内容 -->
-                    <span v-if="scope.row.status === 2">已归还</span>
+                    <span v-if="scope.row.status === 1">已归还</span>
                     <span v-else>借阅中</span>
                 </template>
 
@@ -129,9 +129,6 @@
                     label: '按借阅者账号搜索'
                 }, {
                     value: '3',
-                    label: '按借阅者姓名搜索'
-                }, {
-                    value: '4',
                     label: '按书籍号'
                 }],
             }
@@ -146,8 +143,8 @@
         methods: {
             async init() {
                 axios.post("http://localhost:8080/BookReturn/return", this.BookHisInfo).then(response => {
-                    if (response.data.code == 200) {
-                        this.tableData = response.data.data.currentPage;
+                    if (response.data.code == 1) {
+                        this.tableData = response.data.data;
                         this.counts = response.data.data.total;
                     } else {
                         this.$message.error(`${response.data.msg}`);

@@ -42,7 +42,7 @@
 
         <!--          书籍分类名称）-->
         <el-table-column
-                prop="bookName"
+                prop="name"
                 label="书籍名"
         >
         </el-table-column>
@@ -169,9 +169,9 @@
                 }
                 //按照分类搜索
 
-                axios.get("/book_his/his", {params})
+                axios.get("/book_his/page", {params})
                     .then(res => {
-                        this.tableData = res.data.data.records.map(record => {
+                        this.tableData = res.data.data.map(record => {
                             // 格式化日期
                             const formattedBeginTime = this.formatDate(record.beginTime);
                             const formattedEndTime = this.formatDate(record.endTime);

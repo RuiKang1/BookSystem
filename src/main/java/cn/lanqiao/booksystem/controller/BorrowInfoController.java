@@ -51,7 +51,7 @@ public class BorrowInfoController {
         int result = booksInfoService.borrow(aid,bookHisInfo,bid,card,name,beginTime,endTime);
         int result1 = booksInfoService.changeStatus(bookHisInfo.getBid());
         System.out.println(bookHisInfo);
-//        System.out.println(bid);
+        System.out.println(bid);
 
         if (result==1){
             return new ResponseUtils(1,"借阅成功");
@@ -69,5 +69,7 @@ public class BorrowInfoController {
             return new ResponseUtils(0,"还书失败");
         }
     }
+
+
 
 }
