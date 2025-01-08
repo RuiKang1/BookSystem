@@ -72,8 +72,8 @@
                 <el-table-column label="状态">
                     <template slot-scope="scope">
                         <!-- 根据 status 的值动态渲染不同的内容 -->
-                        <span v-if="scope.row.status === 2">未借出</span>
-                        <span v-else>借阅中</span>
+                        <span v-if="scope.row.status === 2">借阅中</span>
+                        <span v-else>未借出</span>
                     </template>
 
                 </el-table-column>

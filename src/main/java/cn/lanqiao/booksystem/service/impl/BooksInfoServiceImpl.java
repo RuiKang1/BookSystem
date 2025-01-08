@@ -8,9 +8,11 @@ import cn.lanqiao.booksystem.modle.pojo.BooksInfo;
 import cn.lanqiao.booksystem.service.BooksInfoService;
 import cn.lanqiao.booksystem.mapper.BooksInfoMapper;
 import jakarta.servlet.http.HttpSession;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -55,8 +57,18 @@ public class BooksInfoServiceImpl implements BooksInfoService{
     }
 
     @Override
-    public int borrow(Long bid) {
-        int result = booksInfoMapper.borrow(bid);
+    public int borrow(Long userId,BookHisInfo bookHisInfo,Long bid,String card,String name,Date beginTime, Date endTime) {
+        int result = booksInfoMapper.borrow(userId,bookHisInfo,bid,card,name, (java.sql.Date) beginTime, (java.sql.Date) endTime);
+        if (result>0){
+            return 1;
+        }else {
+            return 0;
+        }
+    }
+
+    @Override
+    public int changeStatus(Long bid) {
+        int result = booksInfoMapper.changeStatus(bid);
         if (result>0){
             return 1;
         }else {

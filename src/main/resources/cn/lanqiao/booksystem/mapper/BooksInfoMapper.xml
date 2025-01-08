@@ -36,21 +36,22 @@
         author,num,press,
         type,status
     </sql>
+
     <!-- 检查图书状态 -->
     <select id="checkBookStatus" resultMap="BaseResultMap">
         select * from books_info where bid = #{bid} and status = 1
     </select>
 
-    <!-- 更新图书状态为已借出(2) -->
-    <update id="borrow">
-        update books_info
-        set status = 2
-        where bid = #{bid} and status = 1
-    </update>
 
     <update id="returnBook">
-        update book_his_info set status=1 where bid=#{bid};
+        update books_info bi , book_his_info bh set bi.status = 1,bh.status = 1 where bi.bid = #{bid} and bh.bid = #{bid};
     </update>
+    <update id="changeStatus">
+        update books_info set status=2 where bid=#{bid};
+    </update>
+    <insert id="borrow">
+        insert into book_his_info VALUES(null,#{userId},#{bid},#{card},#{name},'zs','1111',#{beginTime},#{endTime},2);
+    </insert>
     <select id="selectUserBooks" resultType="cn.lanqiao.booksystem.modle.pojo.BooksInfo">
         select * from books_info;
     </select>

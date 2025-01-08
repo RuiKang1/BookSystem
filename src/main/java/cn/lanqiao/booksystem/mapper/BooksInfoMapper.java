@@ -4,9 +4,11 @@ package cn.lanqiao.booksystem.mapper;
 import cn.lanqiao.booksystem.modle.dto.BookBorrowDTO;
 import cn.lanqiao.booksystem.modle.pojo.BookHisInfo;
 import cn.lanqiao.booksystem.modle.pojo.BooksInfo;
+import lombok.Data;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.data.repository.query.Param;
+import org.apache.ibatis.annotations.Param;
 
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -23,7 +25,9 @@ public interface BooksInfoMapper{
     List<BookHisInfo> selectBooksByName(String name, Integer page, Integer pageSize);
     List<BookHisInfo> selectBooksByCard(String card,Integer page,Integer pageSize);
     //借阅图书功能
-    int borrow(Long bid);
+    int borrow(Long userId, BookHisInfo bookHisInfo, Long bid, String card, String name, Date beginTime, Date endTime);
+    //
+    int changeStatus(Long bid);
     //用户还书功能
     int returnBook(Long bid);
 

@@ -8,12 +8,14 @@ import cn.lanqiao.booksystem.service.BooksInfoService;
 import cn.lanqiao.booksystem.utils.ResponseUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -43,8 +45,14 @@ public class BorrowInfoController {
     }
     @RequestMapping("book_his/borrow")
     @ResponseBody
-    public ResponseUtils borrow(Long bid) {
-        int result = booksInfoService.borrow(bid);
+    public ResponseUtils borrow(HttpServletRequest request, @RequestBody BookHisInfo bookHisInfo, @Param("bid") Long bid, @Param("card") String card, @Param("name") String name, @Param("beginTime") Date beginTime,@Param("endTime") Date endTime) {
+        HttpSession session = request.getSession();
+        Long aid = (Long) session.getAttribute("aid");
+        int result = booksInfoService.borrow(aid,bookHisInfo,bid,card,name,beginTime,endTime);
+        int result1 = booksInfoService.changeStatus(bookHisInfo.getBid());
+        System.out.println(bookHisInfo);
+//        System.out.println(bid);
+
         if (result==1){
             return new ResponseUtils(1,"借阅成功");
         }else {
