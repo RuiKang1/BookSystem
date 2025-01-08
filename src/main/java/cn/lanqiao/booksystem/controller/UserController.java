@@ -75,7 +75,7 @@ public class UserController {
 
             UserInfo login = userService.login(userInfoQuery);
             if (login != null){
-                if (code.equals(codes)){
+                if (code.equalsIgnoreCase(codes)){
                     //验证码正确，登录成功
                     session.setAttribute("aid",login.getAid());//登录成功后骄傲几个
                     return new ResponseUtils(1,"登录成功",login);
