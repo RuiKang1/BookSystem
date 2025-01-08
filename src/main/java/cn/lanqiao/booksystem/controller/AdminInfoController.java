@@ -101,4 +101,20 @@ public class AdminInfoController {
             return new ResponseUtils<>(0, "退出失败");
         }
     }
+
+    @RequestMapping("/edit")
+    @ResponseBody
+    public ResponseUtils edit(@RequestBody AdminInfo adminInfo){
+        try {
+            int up = adminInfoService.up(adminInfo);
+            if (up == 1){
+                return new ResponseUtils<>(1,"修改成功");
+            }else {
+                return new ResponseUtils<>(2,"修改失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
 }

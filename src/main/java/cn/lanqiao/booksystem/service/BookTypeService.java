@@ -20,4 +20,14 @@ public interface BookTypeService {
      */
     int delType(int tid);
 
+    /**
+     * 批量删除
+     */
+    int batchDelete(List<Integer> tids);
+
+    /**
+     * 修改功能
+     */
+    int updateType(BookTypeInfo bookTypeInfo);
+
 }

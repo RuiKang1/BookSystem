@@ -172,12 +172,17 @@
                             console.error('No Location header provided for 302 redirect');
                         }
                     } else if (res.data.code === 1) {
+                        // 登录成功后存储信息，包括密码
                         this.$message({
                             showClose: true,
                             message: '登录成功，欢迎回来！',
                             type: 'success'
                         });
+                        // 假设 res.data 包含了所有的用户信息和密码
                         localStorage.setItem('userInfo', JSON.stringify(res.data));
+                        localStorage.setItem('userInfoSimple', JSON.stringify({
+                            soperatorPas: user.operatorPass // 存储密码字段
+                        }));
                         window.location.href = "index.html";
                     } else {
                         this.$message.error(res.data.msg);
