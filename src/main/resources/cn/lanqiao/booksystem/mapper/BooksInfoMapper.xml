@@ -17,28 +17,62 @@
             <result property="endTime" column="end_time" jdbcType="INTEGER"/>
 
     </resultMap>
+    <resultMap id="BaseResultMap1" type="cn.lanqiao.booksystem.modle.pojo.BookHisInfo">
+        <id property="hid" column="hid" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="aid" column="aid" jdbcType="INTEGER"/>
+        <result property="bid" column="bid" jdbcType="INTEGER"/>
+        <result property="card" column="card" jdbcType="VARCHAR"/>
+        <result property="adminName" column="admin_name" jdbcType="VARCHAR"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="beginTime" column="begin_time" jdbcType="INTEGER"/>
+        <result property="endTime" column="end_time" jdbcType="INTEGER"/>
+
+    </resultMap>
 
     <sql id="Base_Column_List">
         bid,name,card,
         author,num,press,
         type,status
     </sql>
+    <!-- 检查图书状态 -->
+    <select id="checkBookStatus" resultMap="BaseResultMap">
+        select * from books_info where bid = #{bid} and status = 1
+    </select>
+
+    <!-- 更新图书状态为已借出(2) -->
     <update id="borrow">
-        update books_info set status=1 where bid=#{bid};
+        update books_info
+        set status = 2
+        where bid = #{bid} and status = 1
     </update>
+
     <update id="returnBook">
-        update books_info set status=2 where bid=#{bid};
+        update book_his_info set status=1 where bid=#{bid};
     </update>
     <select id="selectUserBooks" resultType="cn.lanqiao.booksystem.modle.pojo.BooksInfo">
-        select * from books_info where status=1;
+        select * from books_info;
     </select>
     <select id="selectUserBorrow" resultType="cn.lanqiao.booksystem.modle.pojo.BooksInfo">
-        SELECT
-            b.*,
-            h.begin_time,
-            h.end_time
-        FROM books_info b
-                 LEFT JOIN book_his_info h ON h.bid = b.bid
-        WHERE b.status = 1;
+        select * from book_his_info where aid=#{aid};
+    </select>
+    <select id="selectBooksByName" resultType="cn.lanqiao.booksystem.modle.pojo.BookHisInfo">
+        select * from book_his_info
+        <where>
+            <if test="name != null and name != ''">
+                and name like concat('%',#{name},'%')
+            </if>
+            and status != 0 limit #{page},#{pageSize};
+        </where>
+    </select>
+    <select id="selectBooksByCard" resultType="cn.lanqiao.booksystem.modle.pojo.BookHisInfo">
+        select * from book_his_info
+        <where>
+            <if test="card != null and card != ''">
+                and card like concat('%',#{card},'%')
+            </if>
+            and status != 0 limit #{page},#{pageSize};
+        </where>
     </select>
 </mapper>

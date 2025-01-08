@@ -140,36 +140,31 @@
         },
         methods: {
             async init() {
-
-
                 let params = {
                     page: this.page,
                     pageSize: this.pageSize
                 };
 
-                // 根据搜索类型设置请求参数
                 if (this.searchText) {
-                    if (this.searchType === 'name') {
-                        params.name = this.searchText;
-                    }   else if (this.searchType === 'card') {
-                        params.card = this.searchText;
-                    }
+                    params[this.searchType] = this.searchText;
                 }
-                //按照分类搜索
 
-                axios.get("/book_his/page", {params})
-                    .then(res => {
-                        if (res.data.code === 1) {
-                            this.tableData = res.data.data.map(item => ({
-                                ...item,
-                                beginTime: item.beginTime ? new Date(item.beginTime).toLocaleDateString() : '未设置',
-                                endTime: item.endTime ? new Date(item.endTime).toLocaleDateString() : '未设置'
-                            }));
-                            this.counts = res.data.data.length;
-                        } else {
-                            this.$message.error(res.data.msg || '查询失败');
-                        }
-                    })
+                try {
+                    const res = await axios.get("/book_his/page", { params });
+                    if (res.data.code === 1) {
+                        this.tableData = res.data.data.map(record => ({
+                            ...record,
+                            beginTime: this.formatDate(record.beginTime),
+                            endTime: this.formatDate(record.endTime)
+                        }));
+                        this.counts = res.data.total || 0;
+                    } else {
+                        this.$message.error(res.data.msg || '获取数据失败');
+                    }
+                } catch (error) {
+                    console.error('获取数据失败:', error);
+                    this.$message.error('获取数据失败');
+                }
             },
             handleSearch() {
                 this.page = 1; // 重置页码为1

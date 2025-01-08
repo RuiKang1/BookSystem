@@ -14,7 +14,7 @@ public class BookHisInfo {
   private long aid;
   private long bid;
   private String card;
-  private String bookName;
+  private String name;
   private String adminName;
   private String username;
   private Date beginTime;
@@ -28,7 +28,7 @@ public class BookHisInfo {
             ", aid=" + aid +
             ", bid=" + bid +
             ", card='" + card + '\'' +
-            ", bookName='" + bookName + '\'' +
+            ", name='" + name + '\'' +
             ", adminName='" + adminName + '\'' +
             ", username='" + username + '\'' +
             ", beginTime='" + beginTime + '\'' +

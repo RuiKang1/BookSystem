@@ -143,9 +143,8 @@
         mounted() {
         },
         methods: {
+            // 修改 init 方法中的错误
             async init() {
-
-
                 let params = {
                     page: this.page,
                     pageSize: this.pageSize
@@ -163,15 +162,19 @@
                         params.card = this.searchText;
                     }
                 }
-                //按照分类搜索
 
-                axios.get("/book_info/page", { params })
-                    .then(res => {
+                try {
+                    const res = await axios.get("/book_info/page", { params });
+                    if (res.data.code === 1) {
                         this.tableData = res.data.data;
-                        console.log(tableData)
-                        this.counts = res.data.data.total;
-                        console.log(this.counts);
-                    })
+                        this.counts = res.data.total || 0;
+                    } else {
+                        this.$message.error(res.data.msg || '获取数据失败');
+                    }
+                } catch (error) {
+                    console.error('获取数据失败:', error);
+                    this.$message.error('获取数据失败');
+                }
             },
             handleSearch() {
                 this.page = 1; // 重置页码为1
