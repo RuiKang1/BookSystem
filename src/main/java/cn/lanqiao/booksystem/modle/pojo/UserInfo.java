@@ -18,5 +18,9 @@ public class UserInfo {
   private long status;
   private long lendNum;
   private long maxNum;
+  private String token;
 
+
+    public void setToken(String token) {
+    }
 }

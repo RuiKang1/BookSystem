@@ -12,7 +12,7 @@
                 <if test="name != null and name != ''">
                     and name like concat('%',#{name},'%')
                 </if>
-            and status != 0;
+            and status != 0 limit #{page},#{pageSize};
             </where>
 
     </select>
@@ -23,7 +23,7 @@
             <if test="author != null and author != ''">
                 and author like concat('%',#{name},'%')
             </if>
-            and status != 0;
+            and status != 0 limit #{page},#{pageSize};
         </where>
     </select>
 
@@ -33,7 +33,7 @@
             <if test="type != null and type != ''">
                 and type like concat('%',#{type},'%')
             </if>
-            and status != 0;
+            and status != 0 limit #{page},#{pageSize};
         </where>
     </select>
 
@@ -43,7 +43,7 @@
             <if test="card != null and card != ''">
                 and card like concat('%',#{card},'%')
             </if>
-            and status != 0;
+            and status != 0 limit #{page},#{pageSize};
         </where>
     </select>
 

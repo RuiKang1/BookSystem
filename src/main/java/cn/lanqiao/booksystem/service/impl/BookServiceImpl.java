@@ -26,8 +26,9 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BooksInfo> selectBooksByName(String name) {
-        List<BooksInfo> booksInfos = bookMapper.selectBooksByName(name);
+    public List<BooksInfo> selectBooksByName(String name,Integer page,Integer pageSize) {
+        int finallyPage = (page - 1) * pageSize;
+        List<BooksInfo> booksInfos = bookMapper.selectBooksByName(name,finallyPage,pageSize);
         if(booksInfos != null){
             return booksInfos;
         }else{
@@ -36,8 +37,9 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BooksInfo> selectBooksByType(String type) {
-        List<BooksInfo> booksInfos = bookMapper.selectBooksByType(type);
+    public List<BooksInfo> selectBooksByType(String type,Integer page,Integer pageSize) {
+        int finallyPage = (page - 1) * pageSize;
+        List<BooksInfo> booksInfos = bookMapper.selectBooksByType(type,finallyPage,pageSize);
         if(booksInfos != null){
             return booksInfos;
         }else{
@@ -46,8 +48,9 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BooksInfo> selectBooksByAuthor(String author) {
-        List<BooksInfo> booksInfos = bookMapper.selectBooksByAuthor(author);
+    public List<BooksInfo> selectBooksByAuthor(String author,Integer page,Integer pageSize) {
+        int finallyPage = (page - 1) * pageSize;
+        List<BooksInfo> booksInfos = bookMapper.selectBooksByAuthor(author,finallyPage,pageSize);
         if(booksInfos != null){
             return booksInfos;
         }else{
@@ -55,11 +58,10 @@ public class BookServiceImpl implements BookService {
         }
     }
 
-
-
     @Override
-    public List<BooksInfo> selectBooksByCard(String card) {
-        List<BooksInfo> booksInfos = bookMapper.selectBooksByCard(card);
+    public List<BooksInfo> selectBooksByCard(String card,Integer page,Integer pageSize) {
+        int finallyPage = (page - 1) * pageSize;
+        List<BooksInfo> booksInfos = bookMapper.selectBooksByCard(card,finallyPage,pageSize);
         if(booksInfos != null){
             return booksInfos;
         }else{
