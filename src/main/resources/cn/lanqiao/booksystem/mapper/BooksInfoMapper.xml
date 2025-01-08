@@ -46,11 +46,19 @@
     <update id="returnBook">
         update books_info bi , book_his_info bh set bi.status = 1,bh.status = 1 where bi.bid = #{bid} and bh.bid = #{bid};
     </update>
+
+    <delete id="deleteInfo">
+        delete from book_his_info where bid = #{bid};
+    </delete>
+
     <update id="changeStatus">
         update books_info set status=2 where bid=#{bid};
     </update>
     <insert id="borrow">
-        insert into book_his_info VALUES(null,#{userId},#{bid},#{card},#{name},'zs','1111',#{beginTime},#{endTime},2);
+        insert into book_his_info VALUES(null,#{userId},#{bookHisInfo.bid},#{bookHisInfo.card},#{bookHisInfo.name},
+                                         (select username from user_info where aid = #{userId}),
+                                         (select name from user_info where aid = #{userId}),
+                                         #{bookHisInfo.beginTime},#{bookHisInfo.endTime},2);
     </insert>
     <select id="selectUserBooks" resultType="cn.lanqiao.booksystem.modle.pojo.BooksInfo">
         select * from books_info;

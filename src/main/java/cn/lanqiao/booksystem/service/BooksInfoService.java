@@ -22,9 +22,11 @@ public interface BooksInfoService{
     List<BookHisInfo> selectBooksByName(String name, Integer page, Integer pageSize);
     List<BookHisInfo> selectBooksByCard(String card,Integer page,Integer pageSize);
     //借阅图书功能
-    int borrow(Long userId, BookHisInfo bookHisInfo, Long bid, String card, String name, Date beginTime, Date endTime);
+    int borrow(Long userId, BookHisInfo bookHisInfo);
     int changeStatus(Long bid);
     //用户还书功能
     int returnBook(Long bid);
+    //删除借阅信息
+    int deleteInfo(Long bid);
 
 }

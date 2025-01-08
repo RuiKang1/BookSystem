@@ -57,8 +57,8 @@ public class BooksInfoServiceImpl implements BooksInfoService{
     }
 
     @Override
-    public int borrow(Long userId,BookHisInfo bookHisInfo,Long bid,String card,String name,Date beginTime, Date endTime) {
-        int result = booksInfoMapper.borrow(userId,bookHisInfo,bid,card,name, (java.sql.Date) beginTime, (java.sql.Date) endTime);
+    public int borrow(Long userId,BookHisInfo bookHisInfo) {
+        int result = booksInfoMapper.borrow(userId,bookHisInfo);
         if (result>0){
             return 1;
         }else {
@@ -79,6 +79,16 @@ public class BooksInfoServiceImpl implements BooksInfoService{
     @Override
     public int returnBook(Long bid) {
         int result = booksInfoMapper.returnBook(bid);
+        if (result>0){
+            return 1;
+        }else {
+            return 0;
+        }
+    }
+
+    @Override
+    public int deleteInfo(Long bid) {
+        int result = booksInfoMapper.deleteInfo(bid);
         if (result>0){
             return 1;
         }else {

@@ -45,13 +45,13 @@ public class BorrowInfoController {
     }
     @RequestMapping("book_his/borrow")
     @ResponseBody
-    public ResponseUtils borrow(HttpServletRequest request, @RequestBody BookHisInfo bookHisInfo, @Param("bid") Long bid, @Param("card") String card, @Param("name") String name, @Param("beginTime") Date beginTime,@Param("endTime") Date endTime) {
+    public ResponseUtils borrow(HttpServletRequest request, @RequestBody BookHisInfo bookHisInfo) {
         HttpSession session = request.getSession();
         Long aid = (Long) session.getAttribute("aid");
-        int result = booksInfoService.borrow(aid,bookHisInfo,bid,card,name,beginTime,endTime);
+        int result = booksInfoService.borrow(aid,bookHisInfo);
         int result1 = booksInfoService.changeStatus(bookHisInfo.getBid());
         System.out.println(bookHisInfo);
-        System.out.println(bid);
+
 
         if (result==1){
             return new ResponseUtils(1,"借阅成功");
@@ -63,6 +63,7 @@ public class BorrowInfoController {
     @ResponseBody
     public ResponseUtils returnBook(Long bid){
         int result = booksInfoService.returnBook(bid);
+        booksInfoService.deleteInfo(bid);
         if (result==1){
             return new ResponseUtils(1,"还书成功");
         }else {

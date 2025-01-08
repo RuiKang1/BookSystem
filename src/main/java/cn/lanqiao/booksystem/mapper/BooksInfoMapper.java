@@ -25,12 +25,13 @@ public interface BooksInfoMapper{
     List<BookHisInfo> selectBooksByName(String name, Integer page, Integer pageSize);
     List<BookHisInfo> selectBooksByCard(String card,Integer page,Integer pageSize);
     //借阅图书功能
-    int borrow(Long userId, BookHisInfo bookHisInfo, Long bid, String card, String name, Date beginTime, Date endTime);
+    int borrow(@Param("userId") Long userId,@Param("bookHisInfo") BookHisInfo bookHisInfo);
     //
     int changeStatus(Long bid);
     //用户还书功能
     int returnBook(Long bid);
-
+    //删除借阅信息根据书的id号
+    int deleteInfo(Long bid);
 }
 
 
